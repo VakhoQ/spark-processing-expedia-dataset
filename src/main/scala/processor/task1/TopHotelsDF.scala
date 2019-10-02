@@ -18,6 +18,8 @@ class TopHotelsDF  extends BaseProcessor{
     val df= dr.toDF();
     /**
      * Couples means == > SRCH_ADULTS_CNT==2
+     * Group by 3 column
+     * Desc sort
      */
     val result = df.filter("SRCH_ADULTS_CNT==2")
       .groupBy("hotel_continent", "hotel_country",  "hotel_market")

@@ -20,7 +20,11 @@ class Top3NotBooked extends BaseProcessor {
 
     val ds: Dataset[Booking] = dr.as[Booking]
 
- //&&  p.is_booking == 0, p.srch_children_cnt != 0
+     /**
+      * Filter is_booking= 0 and srch_children_cnt > 0
+      * Group by hotel market
+      * count top 3
+      */
     val result =
        ds.filter(p => p.is_booking == 0)
       .filter(p2 => p2.srch_children_cnt!=0)
