@@ -1,31 +1,47 @@
 package processor.task1
 
 import helper.FileFormat
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.StructType
 import processor.BaseProcessor
+import schema.Booking
 
 class TopHotelsDF  extends BaseProcessor{
 
+
+
   def process(spark: SparkSession, schema: StructType, input: String, output: String, inputFormat: FileFormat, isResultLoEnabled: Boolean) = {
 
-    val dr = spark.read.format(inputFormat.toString)
-      .option("header", "true")
-      .schema(schema)
-      .load(input)
+    import spark.implicits._
 
-    val df= dr.toDF();
+    val dr = crateDataFrameFromFile(spark, schema, input, inputFormat)
+
+    var result : Dataset[Row] = null;
+
+
     /**
      * Couples means == > SRCH_ADULTS_CNT==2
      * Group by 3 column
      * Desc sort
      */
-    val result = df.filter("SRCH_ADULTS_CNT==2")
-      .groupBy("hotel_continent", "hotel_country",  "hotel_market")
-      .count().withColumnRenamed("count", "uniq_hotel_popularity_index")
-      .sort(desc("uniq_hotel_popularity_index"))
-      .limit(3)
+
+    if(schema != null){
+      val ds: Dataset[Booking] = dr.as[Booking]
+       result = ds.filter(p => p.srch_adults_cnt.equalsIgnoreCase("2"))
+        .groupBy($"hotel_continent", $"hotel_country",  $"hotel_market")
+        .count()
+         .sort($"count".desc)
+        .limit(3)
+    }else{
+         result = dr.filter("SRCH_ADULTS_CNT==2")
+        .groupBy("hotel_continent", "hotel_country",  "hotel_market")
+        .count()
+        .sort(desc("count"))
+        .limit(3)
+    }
+
+
 
     /* The similar result but not optimized:
     df.createOrReplaceTempView("TRAIN_FROM_AVRO_SCHEMA")
@@ -57,4 +73,16 @@ class TopHotelsDF  extends BaseProcessor{
   }
 
 
+  private def crateDataFrameFromFile(spark: SparkSession, schema: StructType, input: String, inputFormat: FileFormat): DataFrame = {
+    if (schema == null) {
+      spark.read.format(inputFormat.toString)
+        .option("header", "true")
+        .load(input)
+    } else {
+      spark.read.format(inputFormat.toString)
+        .option("header", "true")
+        .schema(schema)
+        .load(input)
+    }
+  }
 }
