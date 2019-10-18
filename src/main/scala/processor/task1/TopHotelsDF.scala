@@ -19,7 +19,6 @@ class TopHotelsDF  extends BaseProcessor{
 
     var result : Dataset[Row] = null;
 
-
     /**
      * Couples means == > SRCH_ADULTS_CNT==2
      * Group by 3 column
@@ -41,29 +40,9 @@ class TopHotelsDF  extends BaseProcessor{
         .limit(3)
     }
 
-
-
-    /* The similar result but not optimized:
-    df.createOrReplaceTempView("TRAIN_FROM_AVRO_SCHEMA")
-    val sql : String =
-      "SELECT HOTELS.HOTEL, \n" +
-        "COUNT(HOTELS.HOTEL) AS COUNT \n" +
-        "FROM (\n" +
-        " SELECT  \n" +
-        " CONCAT('  ',hotel_continent, '  ',hotel_country,' ' ,hotel_market) AS HOTEL \n" +
-        " FROM TRAIN_FROM_AVRO_SCHEMA \n" +
-        " where SRCH_ADULTS_CNT=2\n" +
-        ") HOTELS \n" +
-        "GROUP BY HOTELS.HOTEL \n" +
-        "ORDER BY COUNT DESC LIMIT 3";
-     val sqlDF = spark.sql(sql)
-     */
-
-
     if(isResultLoEnabled){
       result.show()
     }
-
 
     result.write
       .format("csv")
