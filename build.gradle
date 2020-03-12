@@ -15,21 +15,25 @@ plugins {
 }
 
 dependencies {
-    // Use Scala 2.11 in our library project
-    compile 'org.scala-lang:scala-library:2.12.10'
-    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.12.10'
 
-    compile group: 'org.apache.spark', name: 'spark-core_2.12', version: '2.4.4'
-    compile group: 'org.apache.spark', name: 'spark-sql_2.12', version: '2.4.4'
-    compile group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '2.4.4'
+    compile group: 'org.elasticsearch', name: 'elasticsearch-spark-20_2.11', version: '7.5.2'
+
+
+    // Use Scala 2.11 in our library project
+    compile 'org.scala-lang:scala-library:2.11.12'
+    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.11.12'
+
+    compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '2.4.4'
+    compile group: 'org.apache.spark', name: 'spark-sql_2.11', version: '2.4.4'
+    compile group: 'org.apache.spark', name: 'spark-streaming_2.11', version: '2.4.4'
 
     testCompile 'junit:junit:4.12'
-    testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.8'
+    testCompile group: 'org.scalatest', name: 'scalatest_2.11', version: '3.0.8'
 
-    compile group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.2.0'
+    compile group: 'org.scala-lang.modules', name: 'scala-xml_2.11', version: '1.2.0'
 
-    compile group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '2.4.4'
-    compile group: 'org.apache.spark', name: 'spark-sql-kafka-0-10_2.12', version: '2.4.4'
+    compile group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.11', version: '2.4.4'
+    compile group: 'org.apache.spark', name: 'spark-sql-kafka-0-10_2.11', version: '2.4.4'
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.6.7'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
 

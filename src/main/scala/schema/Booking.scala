@@ -1,5 +1,7 @@
 package schema
 
+import java.util.Date
+
 case class Booking(
      val date_time:String,
      val site_name:String,
@@ -24,7 +26,7 @@ case class Booking(
      val hotel_continent:String,
      val hotel_country:String,
      val hotel_market:String,
-     val hotel_cluster:String)
-
+     val hotel_cluster:String,
+     val event_time:String)
 
 

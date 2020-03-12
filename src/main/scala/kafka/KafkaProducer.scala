@@ -9,7 +9,7 @@ object KafkaProducer
 {
   def main(args: Array[String])
   {
-    val input: String = "/home/vq/hadoop/Expedia-Hotel-Recoomendations/train/out.csv";
+    val input: String = "/home/vq/hadoop/Expedia-Hotel-Recoomendations/train/train.csv";
     val generator = new DataEventGenerator(1, "hotelReservation", input, "localhost:6667");
     generator.load()
   }

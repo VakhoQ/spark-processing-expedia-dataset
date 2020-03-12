@@ -5,12 +5,14 @@ object KafkaConsumer
   def main(args: Array[String])
   {
     val writer = new DataEventWriter(
-      false,
       "localhost:6667",
-      "hdfs://sandbox-hdp.hortonworks.com:8020/tmp/test30s_4",
-      "/tmp/test30s_4",
+      "/tmp/bookingEvent4",
       "hotelReservation",
-      "parquet"
+      "es",
+      "http://hdp-proxy",
+      "9200",
+      "expediabooking1/_doc"
+
     )
 
     writer.load()

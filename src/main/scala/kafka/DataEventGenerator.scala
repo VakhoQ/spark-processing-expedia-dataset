@@ -1,7 +1,7 @@
 package kafka
 
 import java.io.File
-import java.util.{Properties, UUID}
+import java.util.{Properties, Random, UUID}
 import java.util.concurrent.{BlockingQueue, CountDownLatch, ExecutorService, Executors, LinkedBlockingDeque, Semaphore, TimeUnit}
 import java.util.logging.Level.SEVERE
 import java.util.logging.{Level, Logger}
@@ -43,7 +43,7 @@ class DataEventGenerator(poolSize: Integer, topicName: String, inputFilePath: St
         val line = it.nextLine
         log.info("processing record: " + line)
         pool.execute(new EventHandler(line, producer, topicName, semaphore))
-
+        Thread.sleep(1)
       }
 
       log.info("all the tasks has been submitted")
@@ -66,6 +66,8 @@ class DataEventGenerator(poolSize: Integer, topicName: String, inputFilePath: St
     }
 
   }
+
+
 
 }
 
